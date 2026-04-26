@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#0b0f1f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Maze Ball" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <title>Maze Ball - 傾けて転がす迷路</title>
+</head>
+<body>
+  <div id="app">
+    <!-- ===== メニュー画面 ===== -->
+    <section id="menu" class="screen">
+      <header class="brand">
+        <h1>Maze Ball</h1>
+        <p class="tagline">スマホを傾けて、迷路を駆け抜けろ。</p>
+      </header>
+
+      <nav class="tabs" role="tablist">
+        <button class="tab active" data-tab="play" role="tab">プレイ</button>
+        <button class="tab" data-tab="howto" role="tab">遊び方</button>
+        <button class="tab" data-tab="install" role="tab">インストール</button>
+        <button class="tab" data-tab="scores" role="tab">スコア</button>
+      </nav>
+
+      <!-- プレイ -->
+      <div class="tabpanel active" data-panel="play">
+        <div class="card">
+          <label for="difficulty" class="card-label">難易度</label>
+          <div class="diff-row">
+            <input type="range" id="difficulty" min="1" max="100" step="1" value="20" />
+            <output id="diff-value">20</output>
+          </div>
+          <div id="diff-detail" class="diff-detail"></div>
+        </div>
+
+        <div class="card">
+          <label class="row">
+            <span>サウンド</span>
+            <input type="checkbox" id="opt-sound" checked />
+          </label>
+          <label class="row">
+            <span>バイブレーション</span>
+            <input type="checkbox" id="opt-vibration" checked />
+          </label>
+          <label class="row">
+            <span>軌跡を表示</span>
+            <input type="checkbox" id="opt-trail" checked />
+          </label>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary big" id="btn-play">▶ ゲーム開始</button>
+          <button class="btn secondary" id="btn-daily">📅 デイリーチャレンジ</button>
+        </div>
+        <p class="hint">※ iOS では「ゲーム開始」を押した直後にセンサー利用の許可が求められます。</p>
+      </div>
+
+      <!-- 遊び方 -->
+      <div class="tabpanel" data-panel="howto">
+        <div class="card">
+          <h2>遊び方</h2>
+          <ol>
+            <li>スマートフォンをほぼ水平に持ちます。</li>
+            <li>「ゲーム開始」を押し、センサー使用を許可してください。</li>
+            <li>キャリブレーション画面で端末を水平にして「設定」を押します。</li>
+            <li>3・2・1 のカウントダウン後、傾けてボールを転がします。</li>
+            <li>緑のゴールに到達するまでの時間を競います。</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h2>難易度の特徴</h2>
+          <ul>
+            <li><b>1〜49</b>: 通常の迷路。難易度が上がるほど大きく複雑になります。</li>
+            <li><b>50〜69</b>: <span class="hl danger">トラップ穴</span>が出現。落ちるとスタートに戻ります。</li>
+            <li><b>60〜100</b>: 視界制限（フォグ・オブ・ウォー）が発動。</li>
+            <li><b>70〜100</b>: <span class="hl gold">鍵</span>を取らないとゴールが開きません。</li>
+            <li>難易度が高いほどボールが小さく、迷路がループ通路を持ちます。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>追加機能</h2>
+          <ul>
+            <li>📳 壁にぶつかるとバイブと効果音</li>
+            <li>👻 同じ迷路を再挑戦すると自己ベストのゴーストが伴走</li>
+            <li>📅 デイリーチャレンジ：日付シードで全プレイヤー共通の迷路</li>
+            <li>🤝 端末を強く振るとリスタート</li>
+            <li>⌨️ PC のキーボード（矢印キー）と画面ドラッグでも操作可能</li>
+            <li>🎯 開始時のキャリブレーションで自分の持ち方を「水平」に補正</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- インストール -->
+      <div class="tabpanel" data-panel="install">
+        <div class="card" id="install-card-android" hidden>
+          <h2>Android (Chrome) にインストール</h2>
+          <ol>
+            <li>下のボタンを押してインストールします。</li>
+          </ol>
+          <button class="btn primary" id="btn-install">📲 ホーム画面に追加</button>
+        </div>
+        <div class="card">
+          <h2>iPhone / iPad (Safari)</h2>
+          <ol>
+            <li>Safari でこのページを開きます。</li>
+            <li>下部の <b>共有ボタン</b>（□に↑のアイコン）をタップします。</li>
+            <li>メニューから <b>「ホーム画面に追加」</b> を選びます。</li>
+            <li>右上の「追加」をタップして完了です。</li>
+          </ol>
+          <p class="hint">追加後はホーム画面のアイコンから起動するとフルスクリーンで遊べます。</p>
+        </div>
+        <div class="card">
+          <h2>Android (Chrome)</h2>
+          <ol>
+            <li>Chrome でこのページを開きます。</li>
+            <li>右上のメニュー（︙）をタップします。</li>
+            <li><b>「アプリをインストール」</b> または「ホーム画面に追加」を選びます。</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h2>オフライン動作について</h2>
+          <p>初回読み込み後はオフラインでも遊べます。電波の届かない場所でも快適に楽しめます。</p>
+        </div>
+      </div>
+
+      <!-- スコア -->
+      <div class="tabpanel" data-panel="scores">
+        <div class="card">
+          <h2>ハイスコア</h2>
+          <div id="scores-list" class="scores"></div>
+          <div class="actions">
+            <button class="btn danger small" id="btn-clear-scores">スコアをリセット</button>
+          </div>
+        </div>
+        <div class="card">
+          <h2>デイリーチャレンジ ベスト</h2>
+          <div id="daily-list" class="scores"></div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <small>© 2026 Maze Ball — Tilt &amp; Roll</small>
+      </footer>
+    </section>
+
+    <!-- ===== ゲーム画面 ===== -->
+    <section id="game" class="screen" hidden>
+      <div class="hud-top">
+        <button class="hud-btn" id="btn-back" aria-label="メニューに戻る">←</button>
+        <div class="hud-time" id="hud-time">0.00</div>
+        <div class="hud-info">
+          <span id="hud-diff">Lv.--</span>
+          <span id="hud-key" class="hud-key" hidden>🔑</span>
+        </div>
+        <button class="hud-btn" id="btn-restart" aria-label="リスタート">↻</button>
+      </div>
+      <canvas id="canvas"></canvas>
+
+      <!-- センサー許可案内 -->
+      <div id="overlay-permission" class="overlay" hidden>
+        <div class="dialog">
+          <h2>センサーの使用許可</h2>
+          <p>このゲームは端末の傾きを使います。許可ダイアログで「許可」を選んでください。</p>
+          <button class="btn primary" id="btn-request-permission">許可をリクエスト</button>
+          <button class="btn secondary" id="btn-skip-permission">キーボード/タッチで遊ぶ</button>
+        </div>
+      </div>
+
+      <!-- キャリブレーション -->
+      <div id="overlay-calibrate" class="overlay" hidden>
+        <div class="dialog">
+          <h2>キャリブレーション</h2>
+          <p>端末を遊びやすい角度に保持してください。<br />その姿勢が「水平」として基準になります。</p>
+          <div class="tilt-indicator" id="tilt-indicator">
+            <div class="tilt-dot"></div>
+          </div>
+          <button class="btn primary big" id="btn-calibrate">この姿勢で開始</button>
+        </div>
+      </div>
+
+      <!-- カウントダウン -->
+      <div id="overlay-countdown" class="overlay countdown" hidden>
+        <div class="count-num" id="count-num">3</div>
+      </div>
+
+      <!-- 勝利 -->
+      <div id="overlay-win" class="overlay" hidden>
+        <div class="dialog">
+          <h2 id="win-title">🏆 ゴール！</h2>
+          <div class="big-time" id="win-time">0.00<span>秒</span></div>
+          <div id="win-record" class="record-line"></div>
+          <div class="actions">
+            <button class="btn primary" id="btn-retry-same">同じ迷路で再挑戦</button>
+            <button class="btn primary" id="btn-new-maze">新しい迷路で挑戦</button>
+            <button class="btn secondary" id="btn-back-menu">メニューに戻る</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 一時停止／死亡（穴落下） -->
+      <div id="overlay-falling" class="overlay" hidden>
+        <div class="dialog">
+          <h2>💀 落下！</h2>
+          <p>スタート地点に戻ります</p>
+        </div>
+      </div>
+
+      <!-- タッチ用ジョイスティック (フォールバック) -->
+      <div id="touch-pad" class="touch-pad" hidden>
+        <div class="touch-pad-knob" id="touch-pad-knob"></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/maze.js"></script>
+  <script src="js/physics.js"></script>
+  <script src="js/sensor.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>
